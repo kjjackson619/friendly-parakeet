@@ -1,3 +1,4 @@
+/* start style */
 *,
 *::before,
 *::after {
@@ -30,6 +31,7 @@ header {
   color: hsl(206, 17%, 28%);
 }
 
+/* body/card styles */
 .card {
   background-color: hsl(0, 0%, 100%);
   border-radius: 5px;
@@ -87,7 +89,9 @@ header {
   text-align: center;
   cursor: pointer;
 }
+/* end body style */
 
+/* button style */
 button[disabled] {
   cursor: default;
   background: #c0c7cf;
@@ -118,6 +122,7 @@ button[disabled] {
   overflow: hidden;
 }
 
+/* mobile accessibility */
 @media (max-width: 690px) {
   .btn {
     font-size: 1rem;
