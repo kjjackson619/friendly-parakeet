@@ -1,68 +1,129 @@
-//variables for password input 
-
-var passwordType;
-var numeric;
-var special;
-var upperCase;
-var lowerCase
-
-var arr1 = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
-var arr2 = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
-var arr3 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-var arr4 = ["!", ".", "#", "$", "%", "&", "'", "(", ")", "*", "+", ",", "-", "/", ":", ";", ">", "<", "?", "@", "^", "]", "[", "_", "{", "}", "~"];
-
-var passwordInput = arr1.concat(arr2, arr3, arr4);
-
+//Input variables
+var input;
 var selection;
 
+//Arrays for characters
+var upperCase = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+var lowerCase = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+var special = ["!", "#", "$", "%", "&", "'", "(", ")", "*", "+", ",", "-", ".", "/", "\:", "\;", " < ", "=", " > ", " ? ", "@", "[", "\\", "]", " ^ ", "_", "`", "{", "|", "}", "~"];
+var numeric = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 
-// Get references to the #generate element
+//ID selector
 var generateBtn = document.querySelector("#generate");
-var passwordText = document.querySelector("#password");
 
-// Write password to the #password input
+//Function for displaying password
 function writePassword() {
+  var password = generatePassword();
+  var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
-  passwordType = parseInt(prompt("What is your desired password length? Select a number between 8 and 128."));
+};
 
-  if (!passwordType) {
-    alert("Confirm valid password length!");
-  } else if (passwordType < 8 || passwordType > 128) {
-    passwordType = parseInt(prompt("You must choose valid password length! Select a number between 8 and 128."));
+//Function for generating password
+password = generatePassword();
+document.getElementById("password").placeholder = password;
+
+function generatePassword() {
+
+  //If statement variables to confirm containing defined arrays
+  var confirmUppercase;
+  var confirmLowercase;
+  var confirmSpecial;
+  var confirmNumeric;
+
+  input = parseInt(prompt("Please enter how many characters for password. Enter value between 8 and 128."));
+
+  if (!input) {
+    alert("Please enter valid input.");
+  } else if (input < 8 || input > 128) {
+
+    input = parseInt(prompt("Please select between 8 and 128."));
+
   } else {
-    upperCase = confirm("Confirm if there are upper case letters?");
-    lowerCase = confirm("Confirm if there are lower case letters?")
-    numeric = confirm("Confirm if there are numbers?")
-    special = confirm("Confirm if there are special characters?");
-  };
 
-  if (!upperCase && !lowerCase && !numeric && !special) {
-    selection = alert("Please select valid input.");
-  } else if (upperCase && lowerCase && numeric && special) {
-    selection = passwordInput;
-  } else if (upperCase) {
-    selection = arr2;
-  } else if (lowerCase) {
-    selection = arr1;
-  } else if (numeric) {
-    selection = arr3;
-  } else if (special) {
-    selection = arr4;
-  };
-
-  for (var i = 0; i < passwordType; i++) {
-    passwordSelection = selection[Math.floor(Math.random() * selection.length)];
-    password.push(passwordSelection);
+    confirmNumeric = confirm("Will this contain numbers?");
+    confirmSpecial = confirm("Will this contain special characters?");
+    confirmUppercase = confirm("Will this contain Uppercase letters?");
+    confirmLowercase = confirm("Will this contain Lowercase letters?");
   };
 
 
+  if (!confirmUppercase && !confirmLowercase && !confirmSpecial && !confirmNumeric) {
+    selection = alert("You must choose a valid selection!");
+
+  }
+
+  else if (confirmSpecial && confirmNumeric && confirmUppercase && confirmLowercase) {
+
+    selection = special.concat(numeric, upperCase, lowerCase);
+  }
+
+  else if (confirmSpecial && confirmNumeric && confirmUppercase) {
+    selection = special.concat(numeric, upperCase);
+  }
+  else if (confirmSpecial && confirmNumeric && confirmLowercase) {
+    selection = special.concat(numeric, lowerCase);
+  }
+  else if (confirmSpecial && confirmLowercase && confirmUppercase) {
+    selection = special.concat(lowerCase, upperCase);
+  }
+  else if (confirmNumeric && confirmLowercase && confirmUppercase) {
+    selection = numeric.concat(lowerCase, upperCase);
+  }
+
+  else if (confirmSpecial && confirmNumeric) {
+    selection = special.concat(numeric);
+
+  } else if (confirmSpecial && confirmLowercase) {
+    selection = special.concat(lowerCase);
+
+  } else if (confirmSpecial && confirmUppercase) {
+    selection = special.concat(upperCase);
+  }
+  else if (confirmLowercase && confirmNumeric) {
+    selection = lowerCase.concat(numeric);
+
+  } else if (confirmLowercase && confirmUppercase) {
+    selection = lowerCase.concat(upperCase);
+
+  } else if (confirmNumeric && confirmUppercase) {
+    selection = numeric.concat(upperCase);
+  }
+
+  else if (confirmSpecial) {
+    selection = special;
+  }
+  else if (confirmNumeric) {
+    selection = numeric;
+  }
+  else if (confirmLowercase) {
+    selection = lowerCase;
+  }
+
+  else if (confirmUppercase) {
+    selection = upperCasel
+  };
 
 
+  var x = [];
 
-  return passwordInput;
+  //Loop to reference all characters to input 
+  for (var i = 0; i < input; i++) {
+    var randomPassword = selection[Math.floor(Math.random() * selection.length)];
+    x.push(randomPassword);
+  }
+
+
+  var password = x.join("");
+  UserInput(password);
+  return password;
 }
 
+//Function calling password to fill out input 
+function UserInput(password) {
+  document.getElementById("password").textContent = password;
+};
 
-// Add event listener to generate button
+//Generate event listener
 generateBtn.addEventListener("click", writePassword);
+
